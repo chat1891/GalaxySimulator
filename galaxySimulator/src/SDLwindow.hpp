@@ -44,14 +44,10 @@ protected:
 	glm::vec2 GetWindowPos(GLfloat x, GLfloat y, GLfloat z);
 	void scroll_callback(SDL_Window* window, double xoffset, double yoffset);
 	void CameraZoomInOut();
-	void printVersion();
-	//SDL_Event event;
 
 	SDL_Event _event;
 
 	float _fov;
-
-	std::string _caption;
 
 	int _width;
 	int _height;		
@@ -65,10 +61,10 @@ protected:
 	SDL_Renderer* _pSdlRenderer;
 	SDL_GLContext _sdcGlContext;
 
-	glm::mat4 _matProjection;
-	glm::mat4 _matView;
+	glm::mat4 projectionMatrix;
+	glm::mat4 viewMatrix;
 
-	volatile bool _bRunning;
+	volatile bool run;
 	bool _stopEventPolling;
 
 	virtual int testOpenGL() = 0;

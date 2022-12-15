@@ -11,16 +11,8 @@ glm::vec2 SDLWindow::GetWindowPos(GLfloat x, GLfloat y, GLfloat z)
 	glm::vec3 pos = glm::vec3(x, y, z);
 	glm::mat4 matModel = glm::mat4(1.0);
 	glm::vec4 viewPort = glm::vec4(0.0f, 0.0f, (float)_width, (float)_height);
-	glm::vec3 projected = glm::project(pos, matModel, _matProjection, viewPort);
+	glm::vec3 projected = glm::project(pos, matModel, projectionMatrix, viewPort);
 	return glm::vec2(projected.x, projected.y);
-}
-
-void SDLWindow::printVersion()
-{
-	std::cout << "OpenGL Version Information:" << glGetString(GL_VERSION) << std::endl;
-	std::cout << "- OpenGL:     " << glGetString(GL_VERSION) << std::endl;
-	std::cout << "- GLSL:       " << glGetString(GL_SHADING_LANGUAGE_VERSION) << std::endl;
-	std::cout << "- Vendor/GPU: " << glGetString(GL_VENDOR) << "/" << glGetString(GL_RENDERER) << std::endl;
 }
 
 SDLWindow::SDLWindow()
@@ -28,16 +20,15 @@ SDLWindow::SDLWindow()
 	, _fov(0)
 	, _width(0)
 	, _height(0)
-	, _caption()
 	, _fps(0)
 	, _camPos({ 0, 0, 2 })
 	, _camLookAt({ 0, 0, 0 })
 	, _camOrient({ 0, 1, 0 })
 	, _pSdlWnd(nullptr)
 	, _pSdlRenderer(nullptr)
-	, _bRunning(true)
-	, _matProjection()
-	, _matView()
+	, run(true)
+	, projectionMatrix()
+	, viewMatrix()
 	, _stopEventPolling(false)
 { }
 
@@ -81,7 +72,6 @@ void SDLWindow::Init(int width, int height, float axisLen, const std::string& ca
 	_sdcGlContext = SDL_GL_CreateContext(_pSdlWnd);
 
 	glewInit();
-	printVersion();
 
 	//testOpenGL();
 	InitGL();
@@ -129,7 +119,7 @@ void SDLWindow::AdjustCamera()
 	double aspect = (double)_width / _height;
 
 	// new mvp matrices for glsl shaders via glm:
-	_matProjection = glm::ortho(
+	projectionMatrix = glm::ortho(
 		-l * aspect, l * aspect,
 		-l, l,
 		-l, l);
@@ -141,7 +131,7 @@ void SDLWindow::AdjustCamera()
 	glm::dvec3 camPos(_camPos.x, _camPos.y, _camPos.z);
 	glm::dvec3 camLookAt(_camLookAt.x, _camLookAt.y, _camLookAt.z);
 	glm::dvec3 camOrient(_camOrient.x, _camOrient.y, _camOrient.z);
-	_matView = glm::lookAt(camPos, camLookAt, camOrient);
+	viewMatrix = glm::lookAt(camPos, camLookAt, camOrient);
 
 	CameraZoomInOut();
 }
@@ -164,7 +154,7 @@ void SDLWindow::MainLoop()
 	double dt = 0;
 	time_t t1(time(nullptr)), t2;
 
-	while (_bRunning)
+	while (run)
 	{
 		//PollEvents();
 		//glfwSetScrollCallback(_pSdlWnd, scroll_callback);
@@ -200,7 +190,7 @@ void SDLWindow::CameraZoomInOut()
 	float aspect = (float)_width / _height;
 	//glm::mat4 proj3 = glm::perspective(glm::radians(initCameraZoom), (float)aspect, 0.1f, 100.0f);
 	glm::mat4 proj3 = glm::perspective(glm::radians(_fov), (float)aspect, 0.1f, 5000.0f);
-	_matView = proj3 * _matView;
+	viewMatrix = proj3 * viewMatrix;
 	
 	if (_fov <= 0) zoomSpeed = zoomOut;
 	else if(_fov>35000) zoomSpeed = zoomIn;
@@ -219,7 +209,7 @@ int SDLWindow::GetHeight() const
 
 void SDLWindow::ExitMainLoop()
 {
-	_bRunning = false;
+	run = false;
 }
 
 void SDLWindow::OnProcessEvents(Uint32 type)
