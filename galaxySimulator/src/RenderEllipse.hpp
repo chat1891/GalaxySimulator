@@ -22,7 +22,9 @@ public:
 	};
 
 	RenderEllipse(int _width_Line = 1, GLuint _drawVariable = GL_STATIC_DRAW)
-		: width_Line(_width_Line)
+		: width_Line(_width_Line),
+		_type(0),
+		drawVariable(_drawVariable)
 	{
 		DefineAttributes({
 			{ posAttribute, 3, GL_FLOAT, 0 },
@@ -49,6 +51,7 @@ public:
 	void calculateEllipseVertices(std::vector<ColourVertex>& vert, std::vector<int>& vertIdx,
 		float a, float b, float angle, uint32_t Num, float Amp, ColorVariables color);
 
+
 private:
 
 	enum AttributeType : int
@@ -61,12 +64,12 @@ private:
 	GLuint vb;
 	GLuint ib;
 	GLuint va;
-	Shader* shaderEllipse;
+	std::shared_ptr<Shader> shaderEllipse;
 
 	std::vector<ColourVertex> vertices;
 	std::vector<int> index;
 
-	GLuint type;
+	GLuint _type;
 	int width_Line;
 
 };
