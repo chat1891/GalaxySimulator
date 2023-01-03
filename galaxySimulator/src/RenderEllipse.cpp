@@ -11,10 +11,13 @@ void RenderEllipse::Init()
 {
 	glGenBuffers(1, &vb);
 	GET_GLERROR;
+
 	glGenBuffers(1, &ib);
 	GET_GLERROR;
+
 	glGenVertexArrays(1, &va);
 	GET_GLERROR;
+
 	shaderEllipse = std::make_shared<Shader>("src/shaders/EllipseShader.shader");
 	GET_GLERROR;
 }
