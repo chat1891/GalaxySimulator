@@ -23,10 +23,11 @@ SimulationWindow::~SimulationWindow()
 void SimulationWindow::StartSimulation()
 {	
 	AdjustCamera();
+	GET_GLERROR;
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
+	GET_GLERROR;
 	DrawStar();
-	DrawEllipse();
+	//DrawEllipse();
 	
 	SDL_GL_SwapWindow(_pSdlWnd);
 }
@@ -45,7 +46,7 @@ void SimulationWindow::InitGL()
 	ellipsesRender.Init();
 	starRender.Init();
 
-	glDisable(GL_DEPTH_TEST);
+	glClearColor(0.0f, .0f, 0.08f, 0.0f);
 	SetCameraOrientation({ 0, 1, 0 });
 }
 
@@ -58,7 +59,9 @@ int SimulationWindow::testOpenGL()
 void SimulationWindow::InitSimulation()
 {
 	initSpaceVariables();
+	GET_GLERROR;
 	space.InitStarsAndDust();
+	GET_GLERROR;
 }
 
 void SimulationWindow::initSpaceVariables()
@@ -118,14 +121,14 @@ void SimulationWindow::UpdateEllipses()
 	std::vector<int> idx;
 
 	int num = 100;
-	float dr = space.GetFarFieldRad() / num;
+	float dr = space.GetFieldRad() / num;
 	for (int i = 0; i <= num; ++i)
 	{
 		float r = dr * (i + 1);
 		float angleDegree = BasicCalculation::rad_degree * space.GetAngularOffset(r);
 		float A = r;
-		float B = r * r * space.GetExcentricity(r);
-		ColorVariables c = { 1, 1, 1, 0.2f };
+		float B = r * space.GetExcentricity(r);
+		ColorVariables c = { 1, 0, 0, 1 };
 		ellipsesRender.calculateEllipseVertices(vert, idx, A,B, angleDegree,
 			space.GetPerturbationsNum(), space.GetPerturbationAmplitude(), c);
 	}

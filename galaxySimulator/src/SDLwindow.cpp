@@ -3,6 +3,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <stdexcept>
 #include <iostream>
+#include "Helper.hpp"
 
 
 
@@ -115,6 +116,7 @@ void SDLWindow::SetCamera(const glm::vec3& pos, const glm::vec3& lookAt, const g
 
 void SDLWindow::AdjustCamera()
 {
+	GET_GLERROR;
 	double l = _fov / 2.0;
 	double aspect = (double)_width / _height;
 
@@ -132,7 +134,7 @@ void SDLWindow::AdjustCamera()
 	glm::dvec3 camLookAt(_camLookAt.x, _camLookAt.y, _camLookAt.z);
 	glm::dvec3 camOrient(_camOrient.x, _camOrient.y, _camOrient.z);
 	viewMatrix = glm::lookAt(camPos, camLookAt, camOrient);
-
+	GET_GLERROR;
 	CameraZoomInOut();
 }
 

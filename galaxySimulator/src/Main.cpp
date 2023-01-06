@@ -8,10 +8,12 @@ int main(int argc, char** argv)
 	try
 	{
 		SimulationWindow wndMain;
+		wndMain.Init(1500, 1000, 35000.0, "Galaxy");
+		wndMain.MainLoop();
 	}
-	catch(std::exception& exc)
+	catch(std::exception& e)
 	{
-		std::cout << "Fatal error: " << exc.what() << std::endl;
+		std::cout << "Error in main func: " << e.what() << std::endl;
 	}
 	return 0;
 }

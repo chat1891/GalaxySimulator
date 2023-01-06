@@ -152,15 +152,27 @@
     <None Include="src\shaders\Star.shader" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\BasicCalculation.cpp" />
+    <ClCompile Include="src\Calculation.cpp" />
+    <ClCompile Include="src\RenderEllipse.cpp" />
+    <ClCompile Include="src\Renderer\Shader.cpp" />
+    <ClCompile Include="src\RenderStars.cpp" />
     <ClCompile Include="src\SimulationWindow.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\SDLwindow.cpp" />
+    <ClCompile Include="src\Space.cpp" />
     <ClCompile Include="src\Star.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\BasicCalculation.hpp" />
+    <ClInclude Include="src\Calculation.hpp" />
+    <ClInclude Include="src\RenderEllipse.hpp" />
+    <ClInclude Include="src\Renderer\Shader.hpp" />
+    <ClInclude Include="src\RenderStars.hpp" />
     <ClInclude Include="src\SimulationWindow.hpp" />
-    <ClInclude Include="src\helper.h" />
+    <ClInclude Include="src\Helper.hpp" />
     <ClInclude Include="src\SDLwindow.hpp" />
+    <ClInclude Include="src\Space.hpp" />
     <ClInclude Include="src\Star.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
