@@ -5,8 +5,8 @@ This is a simulation of galaxy.
 - Run in Visual Studio sln file
 
 ### Example
-![Galaxy](./galaxySimulator/pic.PNG)
-![Galaxy](./galaxySimulator/example.gif)
+![Galaxy](./galaxySimulator/pics/pic.PNG)
+![Galaxy](./galaxySimulator/pics/example.gif)
 
 ### Acknowledgement and References
 - [OpenGL Basic Tutorial](https://www.youtube.com/watch?v=W3gAzLwfIP0&list=PLlrATfBNZ98foTJPJ_Ev03o2oq3-GGOS2)
