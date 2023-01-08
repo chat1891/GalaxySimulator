@@ -22,13 +22,8 @@ private:
 	double _a;
 	double _BulgeR;
 
-	std::vector<double> _m_1;
 	std::vector<double> _y_1;
 	std::vector<double> _x_1;
-
-	std::vector<double> _m_2;
-	std::vector<double> _y_2;
-	std::vector<double> _x_2;
 
 	void CreateCDF();
 	void InitVectors();
@@ -38,6 +33,5 @@ private:
 	double Intensity(double x);
 
 	void CalculateX1_Y1();
-	void CalculateX2_Y2();
 	void nomalizeVector();
 };
