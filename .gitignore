@@ -4,5 +4,9 @@ galaxySimulator/x64
 docs/
 x64/Debug
 
+# Visual Studio files and folder
+galaxySimulator.vcxproj.filters
+
 #Files
 *.user
+

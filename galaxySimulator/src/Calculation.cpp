@@ -40,7 +40,7 @@ void CumulativeDistributionFunction::CreateCDF()
 	InitVectors();
 
 	CalculateX1_Y1();
-	nomalizeVector();
+	//nomalizeVector();
 }
 
 void CumulativeDistributionFunction::InitVectors()
@@ -109,5 +109,6 @@ double CumulativeDistributionFunction::valueFromProbability()
 
 	assert(i >= 0 && i < sz);
 
-	return(_y_1[i] * _MaxR);
+	return _y_1[i];
+	//return(_y_1[i] *_MaxR);
 }
