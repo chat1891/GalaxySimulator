@@ -16,7 +16,8 @@ layout(location = 2) in float tiltAngle;
 layout(location = 3) in float a;
 layout(location = 4) in float b;
 layout(location = 5) in int type;
-layout(location = 6) in vec4 color;
+layout(location = 6) in float eccentricity;
+layout(location = 7) in vec4 color;
 
 out vec4 vertexColor;
 flat out int vertexType;
@@ -63,7 +64,6 @@ flat in int features;
 out vec4 FragColor;
 void main()
 {
-
 	if ((features & 1) == 0)
 		discard;
 	vec2 circCoord = 2.0 * gl_PointCoord - 1.0;

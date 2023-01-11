@@ -94,7 +94,7 @@ void SimulationWindow::UpdateStars()
 	for (int i = 0; i < stars.size(); i++)
 	{
 		//can add color here to change across the galaxy
-		color = {0,1.2, 2, a };
+		color = { 0,1.2, 2, a };
 		idx.push_back((int)vert.size());
 		vert.push_back({ stars[i], color });
 	}
