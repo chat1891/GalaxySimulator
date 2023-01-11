@@ -3,17 +3,54 @@
 #include <fstream>
 #include<sstream>
 
+RenderStars::RenderStars(GLuint blendEquation, GLuint blendFunc, GLuint DrawMode) //GL_STATIC_DRAW
+	:_num(0)
+	, _dustSize(5)
+	, _Amp(0)
+	, _time(0)
+	, _blendFunc(blendFunc)
+	, _blendEquation(blendEquation)
+	, _bufferMode(DrawMode)
+	, _vertices()
+	, _idx()
+	, _type(0)
+{
+	ConstructAttributesLayout();
+}
+
 RenderStars::~RenderStars()
 {
 }
 
+void RenderStars::ConstructAttributesLayout()
+{
+	_layout.ClearLayoutElements();
+	_layout.Push<float>(1);//Theta0
+	_layout.Push<float>(1);//VelTheta
+	_layout.Push<float>(1);//TiltAngle
+	_layout.Push<float>(1);//a
+	_layout.Push<float>(1);//b
+	_layout.Push<int>(1);//type
+	_layout.Push<float>(1);//excentricity
+	_layout.Push<float>(4);//color
+
+}
+
+void RenderStars::UpdateStarVariables(float time, int num, float amp, int dustSize, int displayFeatures)
+{
+	_num = num;
+	_Amp = amp;
+	_time = time;
+	_dustSize = dustSize;
+	_displayFeatures = displayFeatures;
+}
+
 void RenderStars::Init()
-	
 {
 	// Init Buffers
-	glGenBuffers(1, &_vbo);
-	glGenBuffers(1, &_ibo);
-	glGenVertexArrays(1, &_vao);
+	_va = std::make_shared<VertexArray>();
+	_vb = std::make_shared<VertexBuffer>();
+	_ib = std::make_shared<IndexBuffer>();
 
 	//init shaders
 	shader = std::make_unique<Shader>("src/shaders/Star.shader");
@@ -42,20 +79,12 @@ void RenderStars::CreateBuffer(const std::vector<StarVertex>& vert, const std::v
 	_idx = idx;
 	_type = type;
 
-	glBindBuffer(GL_ARRAY_BUFFER, _vbo);
-	glBufferData(GL_ARRAY_BUFFER, _vertices.size() * sizeof(StarVertex), _vertices.data(), _bufferMode);
+	_vb->Bind(_vertices.data(),_vertices.size() * sizeof(StarVertex), _bufferMode);
 
-	glBindVertexArray(_vao);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _ibo);
+	_va->Bind();
+	_va->AddBuffer(*_vb,_layout);
 
-	// Set up vertex buffer array
-	glBindBuffer(GL_ARRAY_BUFFER, _vbo);
-
-	SetVertexAttrib();
-
-	// Set up index buffer array
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _ibo);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, _idx.size() * sizeof(int), _idx.data(), GL_STATIC_DRAW);
+	_ib->Bind((unsigned int*)_idx.data(), _idx.size());
 
 	glBindVertexArray(0);
 }
@@ -87,25 +116,8 @@ void RenderStars::EnableBlendFunc()
 
 void RenderStars::BindVertexArrayObj()
 {
-	glBindVertexArray(GetVertexArrayObject());
+	glBindVertexArray(_va->getRendererID());
 	glDrawElements(GetPrimitiveType(), GetArrayElementCount(), GL_UNSIGNED_INT, nullptr);
 	glBindVertexArray(0);
 
-}
-
-void RenderStars::SetVertexAttrib()
-{
-	// Set up vertex buffer attributes
-	for (const AttributeDefinition& attrib : _attributes)
-	{
-		glEnableVertexAttribArray(attrib.attribIdx);
-		if (attrib.type == GL_INT)
-		{
-			glVertexAttribIPointer(attrib.attribIdx, attrib.size, GL_INT, sizeof(StarVertex), (GLvoid*)attrib.offset);
-		}
-		else
-		{
-			glVertexAttribPointer(attrib.attribIdx, attrib.size, attrib.type, GL_FALSE, sizeof(StarVertex), (GLvoid*)attrib.offset);
-		}
-	}
 }

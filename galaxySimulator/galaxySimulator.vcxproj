@@ -155,7 +155,11 @@
     <ClCompile Include="src\BasicCalculation.cpp" />
     <ClCompile Include="src\Calculation.cpp" />
     <ClCompile Include="src\RenderEllipse.cpp" />
+    <ClCompile Include="src\Renderer\IndexBuffer.cpp" />
     <ClCompile Include="src\Renderer\Shader.cpp" />
+    <ClCompile Include="src\Renderer\VertexArray.cpp" />
+    <ClCompile Include="src\Renderer\VertexBuffer.cpp" />
+    <ClCompile Include="src\Renderer\VertexBufferLayout.cpp" />
     <ClCompile Include="src\RenderStars.cpp" />
     <ClCompile Include="src\SimulationWindow.cpp" />
     <ClCompile Include="src\Main.cpp" />
@@ -167,7 +171,11 @@
     <ClInclude Include="src\BasicCalculation.hpp" />
     <ClInclude Include="src\Calculation.hpp" />
     <ClInclude Include="src\RenderEllipse.hpp" />
+    <ClInclude Include="src\Renderer\IndexBuffer.hpp" />
     <ClInclude Include="src\Renderer\Shader.hpp" />
+    <ClInclude Include="src\Renderer\VertexArray.hpp" />
+    <ClInclude Include="src\Renderer\VertexBuffer.hpp" />
+    <ClInclude Include="src\Renderer\VertexBufferLayout.hpp" />
     <ClInclude Include="src\RenderStars.hpp" />
     <ClInclude Include="src\SimulationWindow.hpp" />
     <ClInclude Include="src\Helper.hpp" />
